@@ -20,6 +20,15 @@ class Letter:
 	def __init__(self, letter, freq):
 		self.letter = letter
 		self.freq = freq
+
+class Match:
+	word: ""
+	freq: 0
+	indexes = []
+	def __init__(self, word, freq, indexes):
+		self.word = word
+		self.freq = freq
+		self.indexes = indexes
 	
 
 def getPercentDifference(a, b):
@@ -72,6 +81,7 @@ def frequencyAnalysis(relativeFrequencies, cipherText):
 		sortObject2.append(obj2)
 	sortedObject2 = sorted(sortObject2, key=lambda obj: obj.freq)
 
+	print("Alphabet character(freq) - Ciphertext character(freq)")
 	for z in range(0, len(alphabet)):
 		print(f"{sortedObject[z].letter}({sortedObject[z].freq}) - {sortedObject2[z].letter}({sortedObject2[z].freq})")
 
@@ -85,6 +95,31 @@ def indexOfCoincidence(frequencies):
 	ic = ic/(totalCount*(totalCount-1))
 	return ic
 
+def kasiskiMethod(cipherText):
+	matchList = []
+	wordLength = 4
+	# loop over entire ciphertext
+	cursor = 0
+	while(cursor <= len(cipherText)):
+		indexes = []
+		freq = 0
+		word = cipherText[cursor:cursor + 4]
+		for x in range(cursor + 4, len(cipherText) - 4, 4):
+			if cipherText[x:x+4] == word:  # thats a match
+				# print(f"match for {word}")
+				freq = freq + 1
+				# print(freq)
+				indexes.append(x)
+		if(freq != 0): # if there is a match make an object for it
+			# print("oof")
+			matchList.append(Match(word, freq, indexes))
+		cursor = cursor + wordLength
+	print("Kasiski method yields: ")
+	print("Matches for word length 4: ")
+	for match in matchList:
+		print(f"word: {match.word}, occurences = {match.freq}")
+
+
 def crack(filePath):
 	cipherText = open(filePath, 'r').read().lower()
 	frequencies = getFrequencies(cipherText)
@@ -92,9 +127,11 @@ def crack(filePath):
 	if checkForBasicCiphers(frequencies, ic):
 		print(f"IC for {filePath} is awfully close to standard IC of english ({str(ic)}/{str(englishIC)})")
 		print("=> this is a basic substitution/transposition (not homophonic)\n")
-		print("Running frequency analysis to find correlations between letters...")
-		relativeFrequencies = getRelativeFrequencies(frequencies)
-		frequencyAnalysis(relativeFrequencies, cipherText)
+		print("Trying Kasiski method")
+		kasiskiMethod(cipherText)
+		# print("Running frequency analysis to find correlations between letters...")
+		# relativeFrequencies = getRelativeFrequencies(frequencies)
+		# frequencyAnalysis(relativeFrequencies, cipherText)
 	else:
 		print(f"IC for {filePath} = {ic}")
 
