@@ -121,7 +121,8 @@ def kasiskiMethod(cipherText):
 
 
 def crack(filePath):
-	cipherText = open(filePath, 'r').read().lower()
+	cipherText = open(filePath, 'r').read().lower().replace(" ", "")
+	print(cipherText)
 	frequencies = getFrequencies(cipherText)
 	ic = indexOfCoincidence(frequencies)
 	if checkForBasicCiphers(frequencies, ic):
@@ -141,13 +142,16 @@ def checkForBasicCiphers(coutns, ic):
 	return False
 
 if __name__ == "__main__":
-	# text = input()
-	
-	crack("./C1")
-	crack("./C2")
-	crack("./C3")
-	crack("./C4")
-
+	import os.path
+	from os import path
+	while True:
+		inputFile = str(input("input filepath to ciphertext: "))
+		if path.exists(inputFile):
+			print(f"Running analysis on {inputFile}")
+			break
+		else:
+			print(f"File does not exist at filepath {inputFile}")
+	crack(inputFile)
 	# relativeFrequencies = relativeFrequencies(counts)
 	# print(relativeFrequencies)
 	# frequencyAnalysis(relativeFrequencies)
