@@ -33,7 +33,7 @@ class Match:
 		self.differences = differences
 	
 def getHighestCommonDifference(differences):
-	return ""
+	return 3
 
 def getDifferences(indexes):
 	differences = []
@@ -124,7 +124,9 @@ def kasiskiMethod(cipherText):
 				indexes.append(x)
 		if(freq > 1): # if there is a match make an object for it
 			# find highest common difference between occurences
-			matchList.append(Match(word, freq, indexes, getDifferences(indexes)))
+			differences = getDifferences(indexes)
+			differences.sort(reverse = True)
+			matchList.append(Match(word, freq, indexes, differences))
 
 		cursor = cursor + wordLength
 	print("Kasiski method yields: ")
@@ -155,13 +157,32 @@ def checkForBasicCiphers(counts, ic):
 if __name__ == "__main__":
 	import os.path
 	from os import path
-	while True:
-		inputFile = str(input("input filepath to ciphertext: "))
+	import sys
+
+	inputFile = ""
+	if len(sys.argv) != 2:
+		while True:
+				inputFile = str(input("input filepath to ciphertext: "))
+				if path.exists(inputFile):
+					print(f"Running analysis on {inputFile}")
+					break
+				else:
+					print(f"File does not exist at filepath {inputFile}")
+
+	else:
+		inputFile = sys.argv[1]
 		if path.exists(inputFile):
-			print(f"Running analysis on {inputFile}")
-			break
+				print(f"Running analysis on {inputFile}")
 		else:
 			print(f"File does not exist at filepath {inputFile}")
+			while True:
+				inputFile = str(input("input filepath to ciphertext: "))
+				if path.exists(inputFile):
+					print(f"Running analysis on {inputFile}")
+					break
+				else:
+					print(f"File does not exist at filepath {inputFile}")
+
 	crack(inputFile)
 	# relativeFrequencies = relativeFrequencies(counts)
 	# print(relativeFrequencies)
