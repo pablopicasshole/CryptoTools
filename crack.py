@@ -25,11 +25,24 @@ class Match:
 	word: ""
 	freq: 0
 	indexes = []
-	def __init__(self, word, freq, indexes):
+	differences = []
+	def __init__(self, word, freq, indexes, differences):
 		self.word = word
 		self.freq = freq
 		self.indexes = indexes
+		self.differences = differences
 	
+def getHighestCommonDifference(differences):
+	return ""
+
+def getDifferences(indexes):
+	differences = []
+	for x in range(0, len(indexes)):
+		for y in range(x, len(indexes)):
+			diff = indexes[y] - indexes[x]
+			if diff not in differences:
+				differences.append(diff)
+	return differences
 
 def getPercentDifference(a, b):
 	diff = a/b
@@ -107,19 +120,17 @@ def kasiskiMethod(cipherText):
 		indexes.append(cursor)
 		for x in range(cursor + 4, len(cipherText) - 4, 4):
 			if cipherText[x:x+4] == word:  # thats a match
-				# print(f"match for {word}")
 				freq = freq + 1
-				# print(freq)
 				indexes.append(x)
 		if(freq > 1): # if there is a match make an object for it
-			# print("oof")
-			matchList.append(Match(word, freq, indexes))
+			# find highest common difference between occurences
+			matchList.append(Match(word, freq, indexes, getDifferences(indexes)))
+
 		cursor = cursor + wordLength
 	print("Kasiski method yields: ")
 	print("Matches for word length 4: ")
 	for match in matchList:
-		print(f"word: {match.word}, occurences: {match.freq}, occurence indexes: {match.indexes}")
-
+		print(f"word: {match.word}, occurences: {match.freq}, occurence indexes: {match.indexes}, differences: {match.differences}")
 
 def crack(filePath):
 	cipherText = open(filePath, 'r').read().lower().replace(" ", "")
