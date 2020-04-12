@@ -102,27 +102,27 @@ def kasiskiMethod(cipherText):
 	cursor = 0
 	while(cursor <= len(cipherText)):
 		indexes = []
-		freq = 0
+		freq = 1
 		word = cipherText[cursor:cursor + 4]
+		indexes.append(cursor)
 		for x in range(cursor + 4, len(cipherText) - 4, 4):
 			if cipherText[x:x+4] == word:  # thats a match
 				# print(f"match for {word}")
 				freq = freq + 1
 				# print(freq)
 				indexes.append(x)
-		if(freq != 0): # if there is a match make an object for it
+		if(freq > 1): # if there is a match make an object for it
 			# print("oof")
 			matchList.append(Match(word, freq, indexes))
 		cursor = cursor + wordLength
 	print("Kasiski method yields: ")
 	print("Matches for word length 4: ")
 	for match in matchList:
-		print(f"word: {match.word}, occurences = {match.freq}")
+		print(f"word: {match.word}, occurences: {match.freq}, occurence indexes: {match.indexes}")
 
 
 def crack(filePath):
 	cipherText = open(filePath, 'r').read().lower().replace(" ", "")
-	print(cipherText)
 	frequencies = getFrequencies(cipherText)
 	ic = indexOfCoincidence(frequencies)
 	if checkForBasicCiphers(frequencies, ic):
@@ -136,7 +136,7 @@ def crack(filePath):
 	else:
 		print(f"IC for {filePath} = {ic}")
 
-def checkForBasicCiphers(coutns, ic):
+def checkForBasicCiphers(counts, ic):
 	if getPercentDifference(ic, englishIC) < 0.05: #5% similarity seems a stretch for coincidence
 		return True
 	return False
