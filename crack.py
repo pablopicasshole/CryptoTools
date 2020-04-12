@@ -72,8 +72,8 @@ def frequencyAnalysis(relativeFrequencies, cipherText):
 		sortObject2.append(obj2)
 	sortedObject2 = sorted(sortObject2, key=lambda obj: obj.freq)
 
-	# go through and check distances
-	print()
+	for z in range(0, len(alphabet)):
+		print(f"{sortedObject[z].letter}({sortedObject[z].freq}) - {sortedObject2[z].letter}({sortedObject2[z].freq})")
 
 def indexOfCoincidence(frequencies):
 	totalCount = 0
