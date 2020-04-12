@@ -59,7 +59,6 @@ def printFrequenciesPretty(frequencies):
 # go through ciphertext relative frequencies and try to find an equivalent relative frequency in the english relative frequencies
 def frequencyAnalysis(relativeFrequencies, cipherText):
 	from operator import itemgetter, attrgetter # to sort
-	print("frequency analysis")
 
 	sortObject = []
 	for x in range(0, len(alphabet)):
@@ -96,6 +95,8 @@ def crack(filePath):
 		print("Running frequency analysis to find correlations between letters...")
 		relativeFrequencies = getRelativeFrequencies(frequencies)
 		frequencyAnalysis(relativeFrequencies, cipherText)
+	else:
+		print(f"IC for {filePath} = {ic}")
 
 def checkForBasicCiphers(coutns, ic):
 	if getPercentDifference(ic, englishIC) < 0.05: #5% similarity seems a stretch for coincidence
