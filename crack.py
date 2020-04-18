@@ -44,6 +44,16 @@ def getDifferences(indexes):
 				differences.append(diff)
 	return differences
 
+def getDifferences2(indexes):
+	differences = []
+	y = 1
+	for x in range(0, len(indexes) - 1):
+		diff = indexes[y] - indexes[x]
+		differences.append(diff)
+		y = y + 1
+
+	return differences
+
 def getPercentDifference(a, b):
 	diff = a/b
 	diff = abs(diff - 1)
@@ -125,7 +135,7 @@ def kasiskiMethod(cipherText):
 				indexes.append(x)
 		if(freq > 1): # if there is a match make an object for it
 			# find highest common difference between occurences
-			differences = getDifferences(indexes)
+			differences = getDifferences2(indexes)
 			differences.sort(reverse = True)
 			matchList.append(Match(word, freq, indexes, differences))
 
@@ -133,9 +143,9 @@ def kasiskiMethod(cipherText):
 	print("Kasiski method yields: ")
 	print(f"Matches for word length {wordLength}: ")
 	for match in matchList:
-		if word not in printedWordList:
+		if match.word not in printedWordList:
 			print(f"word: {match.word}, occurences: {match.freq}, occurence indexes: {match.indexes}, differences: {match.differences}")
-			printedWordList.append(word)
+			printedWordList.append(match.word)
 
 def crack(filePath):
 	cipherText = open(filePath, 'r').read().lower().replace(" ", "")
