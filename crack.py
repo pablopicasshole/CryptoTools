@@ -121,7 +121,7 @@ def indexOfCoincidence(frequencies):
 def kasiskiMethod(cipherText):
 	matchList = []
 	printedWordList = []
-	wordLength = 4
+	wordLength = 5
 	# loop over entire ciphertext
 	cursor = 0
 	while(cursor <= len(cipherText)):
