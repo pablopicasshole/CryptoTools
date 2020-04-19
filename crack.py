@@ -121,7 +121,8 @@ def indexOfCoincidence(frequencies):
 def kasiskiMethod(cipherText):
 	matchList = []
 	printedWordList = []
-	wordLength = 5
+	wordLength = int(input("input word length for Kasiski search: "))
+
 	# loop over entire ciphertext
 	cursor = 0
 	while(cursor <= len(cipherText)):
@@ -154,6 +155,7 @@ def crack(filePath):
 	if checkForBasicCiphers(frequencies, ic):
 		print(f"IC for {filePath} is awfully close to standard IC of english ({str(ic)}/{str(englishIC)})")
 		print("=> this is a basic substitution/transposition (not homophonic)\n")
+		print("Input word length for Kasiski:")
 		print("Trying Kasiski method")
 		kasiskiMethod(cipherText)
 		# print("Running frequency analysis to find correlations between letters...")
