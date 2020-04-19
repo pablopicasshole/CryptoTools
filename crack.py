@@ -35,6 +35,9 @@ class Match:
 def getHighestCommonDifference(differences):
 	return 3
 
+#def getHighestCommonDifference2(differences):
+
+
 def getDifferences(indexes):
 	differences = []
 	for x in range(0, len(indexes)):
@@ -155,14 +158,17 @@ def crack(filePath):
 	if checkForBasicCiphers(frequencies, ic):
 		print(f"IC for {filePath} is awfully close to standard IC of english ({str(ic)}/{str(englishIC)})")
 		print("=> this is a basic substitution/transposition (not homophonic)\n")
-		print("Input word length for Kasiski:")
-		print("Trying Kasiski method")
-		kasiskiMethod(cipherText)
 		# print("Running frequency analysis to find correlations between letters...")
 		# relativeFrequencies = getRelativeFrequencies(frequencies)
 		# frequencyAnalysis(relativeFrequencies, cipherText)
+
 	else:
 		print(f"IC for {filePath} = {ic}")
+
+
+	print("Input word length for Kasiski:")
+	print("Trying Kasiski method")
+	kasiskiMethod(cipherText)
 
 def checkForBasicCiphers(counts, ic):
 	#ic = 0.065
