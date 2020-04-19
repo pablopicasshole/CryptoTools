@@ -32,10 +32,14 @@ class Match:
 		self.indexes = indexes
 		self.differences = differences
 	
-def getHighestCommonDifference(differences):
-	return 3
+# def getHighestCommonDifference(differences):
+# 	return 3
 
-#def getHighestCommonDifference2(differences):
+def getGCD(printDifferences):
+	y = y + 1
+	for x in range(0, len(printDifferences)):
+		gcd(printDifferences[x], printDifferences[x+1])
+		
 
 
 def getDifferences(indexes):
@@ -124,6 +128,7 @@ def indexOfCoincidence(frequencies):
 def kasiskiMethod(cipherText):
 	matchList = []
 	printedWordList = []
+	allDifferences = []
 	wordLength = int(input("input word length for Kasiski search: "))
 
 	# loop over entire ciphertext
@@ -140,6 +145,7 @@ def kasiskiMethod(cipherText):
 		if(freq > 1): # if there is a match make an object for it
 			# find highest common difference between occurences
 			differences = getDifferences2(indexes)
+			allDifferences.extend(differences)
 			differences.sort(reverse = True)
 			matchList.append(Match(word, freq, indexes, differences))
 
@@ -150,6 +156,8 @@ def kasiskiMethod(cipherText):
 		if match.word not in printedWordList:
 			print(f"word: {match.word}, occurences: {match.freq}, occurence indexes: {match.indexes}, differences: {match.differences}")
 			printedWordList.append(match.word)
+
+	return allDifferences
 
 def crack(filePath):
 	cipherText = open(filePath, 'r').read().lower().replace(" ", "")
@@ -165,10 +173,13 @@ def crack(filePath):
 	else:
 		print(f"IC for {filePath} = {ic}")
 
-
 	print("Input word length for Kasiski:")
 	print("Trying Kasiski method")
-	kasiskiMethod(cipherText)
+	listDifferences = kasiskiMethod(cipherText)
+	printDifferences = list(set(listDifferences))	#remove duplicates and print the list of all differences
+	print(f"All the differences found: {printDifferences}")
+
+
 
 def checkForBasicCiphers(counts, ic):
 	#ic = 0.065
