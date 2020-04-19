@@ -41,8 +41,7 @@ def getGCD(printDifferences):
 		gcd(printDifferences[x], printDifferences[x+1])
 		
 
-
-def getDifferences(indexes):
+def getDifferenceCombinations(indexes):
 	differences = []
 	for x in range(0, len(indexes)):
 		for y in range(x, len(indexes)):
@@ -51,7 +50,7 @@ def getDifferences(indexes):
 				differences.append(diff)
 	return differences
 
-def getDifferences2(indexes):
+def getDifferences(indexes):
 	differences = []
 	y = 1
 	for x in range(0, len(indexes) - 1):
@@ -144,7 +143,7 @@ def kasiskiMethod(cipherText):
 				indexes.append(x)
 		if(freq > 1): # if there is a match make an object for it
 			# find highest common difference between occurences
-			differences = getDifferences2(indexes)
+			differences = getDifferences(indexes)
 			allDifferences.extend(differences)
 			differences.sort(reverse = True)
 			matchList.append(Match(word, freq, indexes, differences))
